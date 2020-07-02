@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "urtY7+IFoHlMOLA35SyGHXLg8YMPXg4XiZx9TqcyQxCXKqgvg/qMH8se0fyJ9XlNkZDut742/8H3dKT9ygJ5Zw==",
+  "success": true,
+  "projectFilePath": "W:\\Sources\\code\\C#\\AllLaunch\\AllLaunchLibrary\\AllLaunchLibrary.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Lion223\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Lion223\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\Lion223\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\Lion223\\.nuget\\packages\\system.codedom\\4.7.0\\system.codedom.4.7.0.nupkg.sha512",
+    "C:\\Users\\Lion223\\.nuget\\packages\\system.management\\4.7.0\\system.management.4.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}

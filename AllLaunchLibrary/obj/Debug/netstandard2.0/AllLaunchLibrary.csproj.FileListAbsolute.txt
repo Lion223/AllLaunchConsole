@@ -1,0 +1,9 @@
+W:\Sources\code\C#\AllLaunch\AllLaunchLibrary\bin\Debug\netstandard2.0\AllLaunchLibrary.deps.json
+W:\Sources\code\C#\AllLaunch\AllLaunchLibrary\bin\Debug\netstandard2.0\AllLaunchLibrary.dll
+W:\Sources\code\C#\AllLaunch\AllLaunchLibrary\bin\Debug\netstandard2.0\AllLaunchLibrary.pdb
+W:\Sources\code\C#\AllLaunch\AllLaunchLibrary\obj\Debug\netstandard2.0\AllLaunchLibrary.csprojAssemblyReference.cache
+W:\Sources\code\C#\AllLaunch\AllLaunchLibrary\obj\Debug\netstandard2.0\AllLaunchLibrary.csproj.CoreCompileInputs.cache
+W:\Sources\code\C#\AllLaunch\AllLaunchLibrary\obj\Debug\netstandard2.0\AllLaunchLibrary.AssemblyInfoInputs.cache
+W:\Sources\code\C#\AllLaunch\AllLaunchLibrary\obj\Debug\netstandard2.0\AllLaunchLibrary.AssemblyInfo.cs
+W:\Sources\code\C#\AllLaunch\AllLaunchLibrary\obj\Debug\netstandard2.0\AllLaunchLibrary.dll
+W:\Sources\code\C#\AllLaunch\AllLaunchLibrary\obj\Debug\netstandard2.0\AllLaunchLibrary.pdb
