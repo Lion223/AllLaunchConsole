@@ -10,23 +10,27 @@ namespace AllLaunchConsoleUI
 {
     internal sealed class AllLaunch
     {
-        private readonly static LaunchManager lm = new LaunchManager();
-        private readonly static System.Timers.Timer t = new System.Timers.Timer(5000);
+        // Wait for 5 sec to close after all apps have launched
+        private static System.Timers.Timer timer 
+            = new System.Timers.Timer(5000);
+
         static void Main(string[] args)
         {
-            lm.AppLaunched += AppLaunched;
-            lm.AppAlreadyRunning += AppAlreadyRunning;
+            LaunchManager.Instance.AppLaunched += AppLaunched;
+            LaunchManager.Instance.AppAlreadyRunning += AppAlreadyRunning;
 
-            t.Elapsed += Timer_Elapsed;
+            timer.Elapsed += Timer_Elapsed;
 
+
+            // Could have an alternative on argument appliance
             if (args.Length != 0) 
             {
                 for (int i = 0; i < args.Length; i++)
                 {
                     if (args[i] == "-n")
                     {
-                        lm.LoadObj();
-                        lm.Start();
+                        LaunchManager.Instance.LoadObj();
+                        LaunchManager.Instance.Start();
                         Environment.Exit(0);
                         
                     }
@@ -47,20 +51,20 @@ namespace AllLaunchConsoleUI
         private static bool Menu()
         {
             Console.Clear();
-            string appList = lm.GetLaunchList();
+            string appList = LaunchManager.Instance.GetLaunchList();
 
             Console.Write
             (
                 "AllLaunch..." + "\n" +
                 appList + "-----\n" +
-                "1. Add an application" + '\n' +
-                "2. Remove an application" + '\n' +
-                "3. Update an application" + '\n' +
-                "4. Launch applications" + '\n' +
-                "5. Save a list of applications" + '\n' +
-                "6. Load a list of applications" + '\n' +
-                "7. Arguments" + '\n' +
-                "Esc. Quit" + '\n' +
+                "1. Add;" + " " +
+                "2. Remove;" + " " +
+                "3. Update;" + " " +
+                "4. Launch;" + " " +
+                "5. Save;" + " " +
+                "6. Load;" + " " +
+                "7. Arguments;" + " " +
+                "Esc. Quit." + "\n" +
                 "Enter: "
             );
 
@@ -77,14 +81,16 @@ namespace AllLaunchConsoleUI
                     return true;
                 case '4':
                     Console.Clear();
-                    lm.Start();
-                    //t.Start();
-                    return false;
+                    if (LaunchManager.Instance.Start())
+                    {
+                        return false;
+                    }
+                    return true;
                 case '5':
-                    lm.SaveObj();
+                    LaunchManager.Instance.SaveObj();
                     return true;
                 case '6':
-                    lm.LoadObj();
+                    LaunchManager.Instance.LoadObj();
                     return true;
                 case '7':
                     ListArguments();
@@ -95,11 +101,6 @@ namespace AllLaunchConsoleUI
                 default:
                     return true;
             }
-        }
-
-        private void ArgsSetup(string[] args)
-        {
-            
         }
 
         private static void AddApp()
@@ -114,7 +115,7 @@ namespace AllLaunchConsoleUI
             Console.WriteLine("\nEnter launch arguments: ");
             string args = Console.ReadLine();
 
-            lm.AddApp(name, pathToExe, args);
+            LaunchManager.Instance.AddApp(name, pathToExe, args);
         }
 
         private static void RemoveApp()
@@ -123,7 +124,7 @@ namespace AllLaunchConsoleUI
             Console.WriteLine("Enter application's index: ");
             int index = int.Parse(Console.ReadLine());
 
-            lm.AppModels.RemoveAt(index);
+            LaunchManager.Instance.AppModels.RemoveAt(index);
         }
 
         private static void UpdateApp()
@@ -133,16 +134,16 @@ namespace AllLaunchConsoleUI
             int index = int.Parse(Console.ReadLine());
             
             Console.WriteLine("Enter application name: ");
-            SendKeys.SendWait(lm.AppModels[index].Name);
-            lm.AppModels[index].Name = Console.ReadLine();
+            SendKeys.SendWait(LaunchManager.Instance.AppModels[index].Name);
+            LaunchManager.Instance.AppModels[index].Name = Console.ReadLine();
 
             Console.WriteLine("\nEnter path to .exe file: ");
-            SendKeys.SendWait(lm.AppModels[index].PathToExe);
-            lm.AppModels[index].PathToExe = Console.ReadLine();
+            SendKeys.SendWait(LaunchManager.Instance.AppModels[index].PathToExe);
+            LaunchManager.Instance.AppModels[index].PathToExe = Console.ReadLine();
 
             Console.WriteLine("\nEnter launch arguments: ");
-            SendKeys.SendWait(lm.AppModels[index].Args);
-            lm.AppModels[index].Args = Console.ReadLine();
+            SendKeys.SendWait(LaunchManager.Instance.AppModels[index].Args);
+            LaunchManager.Instance.AppModels[index].Args = Console.ReadLine();
         }
 
         private static void ListArguments()
@@ -154,20 +155,23 @@ namespace AllLaunchConsoleUI
                 "-n: no menu (saved list of apps required)" + '\n' +
                 "\nPress a key to return..."
             );
-
             Console.ReadKey();
         }
 
         private static void AppLaunched(object sender, AppEventArgs e)
         {
             Console.WriteLine($"{e.Name} {e.Args}: is launched");
-            //t.Start();
+            
+            timer.Stop();
+            timer.Start();
         }
 
         private static void AppAlreadyRunning(object sender, AppEventArgs e)
         {
             Console.WriteLine($"{e.Name} {e.Args}: is already running");
-            //t.Start();
+            
+            timer.Stop();
+            timer.Start();
         }
 
         private static void Timer_Elapsed(object sender, ElapsedEventArgs e)

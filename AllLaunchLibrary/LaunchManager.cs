@@ -1,25 +1,39 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
-using System.Management;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 
 namespace AllLaunchLibrary
 {
-    public class LaunchManager
+    public sealed class LaunchManager
     {
+        // Events notifying about app launching state
         public event EventHandler<AppEventArgs> AppLaunched;
         public event EventHandler<AppEventArgs> AppAlreadyRunning;
+        // App info storage
         public List<AppModel> AppModels { get; set; } = new List<AppModel>();
+        // Singleton implementation
+        private static readonly Lazy<LaunchManager> lazy 
+            = new Lazy<LaunchManager>(() => new LaunchManager());
+        private LaunchManager() {}
+        public static LaunchManager Instance
+        {
+            get
+            {
+                return lazy.Value;
+            }
+        }
 
+        // Add app's info in the storage
         public void AddApp(string name, string pathToExe, string args)
         {
             AppModel app = new AppModel(name, pathToExe, args);
             AppModels.Add(app);
         }
 
+        // Get string list of added apps
         public string GetLaunchList()
         {
             StringBuilder sb = new StringBuilder();
@@ -32,8 +46,14 @@ namespace AllLaunchLibrary
             return sb.ToString();
         }
 
-        public void Start()
+        // Launch apps from the storage
+        public bool Start()
         {
+            if (AppModels.Count == 0)
+            {
+                return false;
+            }
+            
             AppEventArgs e = null;
 
             foreach (var app in AppModels)
@@ -60,37 +80,13 @@ namespace AllLaunchLibrary
                     OnAppLaunched(e);
                 }
             }
+
+            return true;
         }
 
+        // Check if app's process is launched
         private bool ProcessExists(AppModel app)
         {
-            Process[] processList = Process.GetProcesses();
-
-            try
-            {
-                foreach (var process in processList)
-                {
-                    ManagementObjectSearcher searcher = new ManagementObjectSearcher(
-                    "SELECT * " +
-                    "FROM Win32_Process " +
-                    "WHERE ParentProcessId=" + process.Id);
-                    ManagementObjectCollection collection = searcher.Get();
-
-                    foreach (var item in collection)
-                    {
-                        Process childProcess = Process.GetProcessById((int)item["ProcessId"]);
-
-                        if (childProcess.MainModule.FileName == app.PathToExe)
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            catch (SystemException) {}
-
-
-            /*
             Process[] processList = Process.GetProcesses();
 
             foreach (var process in processList)
@@ -101,52 +97,35 @@ namespace AllLaunchLibrary
                     {
                         return true;
                     }
-                    else
-                    {
-                        ManagementObjectSearcher searcher = new ManagementObjectSearcher(
-                        "SELECT * " +
-                        "FROM Win32_Process " +
-                        "WHERE ParentProcessId=" + process.Id);
-                        ManagementObjectCollection collection = searcher.Get();
-
-                        foreach (var item in collection)
-                        {
-                            Process p = Process.GetProcessById()
-                        }
-                    }
-
-
-
-                    if (collection.Count > 0)
-                    {
-                        return true;
-                    }
                 }
-                catch(SystemException) { }
+                catch (SystemException) { }
             }
-            */
 
             return false;
         }
 
+        // Save app info into .json file
         public void SaveObj()
         {
             string json = JsonConvert.SerializeObject(AppModels);
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\apps.json", json);
         }
 
+        // Load app info from .json file
         public void LoadObj()
         {
             string json = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\apps.json");
             AppModels = JsonConvert.DeserializeObject<List<AppModel>>(json);
         }
 
-        protected virtual void OnAppLaunched(AppEventArgs e)
+        // Notify listener about app's launched state
+        private void OnAppLaunched(AppEventArgs e)
         {
             AppLaunched?.Invoke(this, e);
         }
 
-        protected virtual void OnAppAlreadyRunning(AppEventArgs e)
+        // Notify listener about app's already launched state
+        private void OnAppAlreadyRunning(AppEventArgs e)
         {
             AppAlreadyRunning?.Invoke(this, e);
         }
