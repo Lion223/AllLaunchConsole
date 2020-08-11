@@ -1,6 +1,6 @@
 using System;
 
-namespace AllLaunchLibrary
+namespace AllLaunchLibrary.EventArgsModels
 {
     public class AppEventArgs : EventArgs 
     {
@@ -8,10 +8,11 @@ namespace AllLaunchLibrary
 
 		public AppEventArgs(string name, string args) 
         {
-			_name = name; _args = args;
+			_name = name; 
+			_args = args;
 		}
 
-		public string Name { get { return _name; } }
-		public string Args { get { return _args; } }
+		public string Name => _name;
+		public string Args => _args;
 	}
 }

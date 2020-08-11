@@ -295,11 +295,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "w:\\Sources\\code\\C#\\AllLaunch\\AllLaunchLibrary\\AllLaunchLibrary.csproj",
+      "projectUniqueName": "W:\\Sources\\code\\C#\\AllLaunch\\AllLaunchLibrary\\AllLaunchLibrary.csproj",
       "projectName": "AllLaunchLibrary",
-      "projectPath": "w:\\Sources\\code\\C#\\AllLaunch\\AllLaunchLibrary\\AllLaunchLibrary.csproj",
+      "projectPath": "W:\\Sources\\code\\C#\\AllLaunch\\AllLaunchLibrary\\AllLaunchLibrary.csproj",
       "packagesPath": "C:\\Users\\Lion223\\.nuget\\packages\\",
-      "outputPath": "w:\\Sources\\code\\C#\\AllLaunch\\AllLaunchLibrary\\obj\\",
+      "outputPath": "W:\\Sources\\code\\C#\\AllLaunch\\AllLaunchLibrary\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -354,7 +354,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

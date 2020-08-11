@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AllLaunchLibrary
+namespace AllLaunchLibrary.Models
 {
     public class AppModel
     {

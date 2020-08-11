@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Timers;
 using AllLaunchLibrary;
+using AllLaunchLibrary.EventArgsModels;
 
 namespace AllLaunchConsoleUI
 {
@@ -13,31 +14,15 @@ namespace AllLaunchConsoleUI
         // Wait for 5 sec to close after all apps have launched
         private static System.Timers.Timer timer 
             = new System.Timers.Timer(5000);
+        private static bool showMenu = true;
 
         static void Main(string[] args)
-        {
-            LaunchManager.Instance.AppLaunched += AppLaunched;
-            LaunchManager.Instance.AppAlreadyRunning += AppAlreadyRunning;
-
-            timer.Elapsed += Timer_Elapsed;
-
+        {   
+            AttachEvents();
 
             // Could have an alternative on argument appliance
-            if (args.Length != 0) 
-            {
-                for (int i = 0; i < args.Length; i++)
-                {
-                    if (args[i] == "-n")
-                    {
-                        LaunchManager.Instance.LoadObj();
-                        LaunchManager.Instance.Start();
-                        Environment.Exit(0);
-                        
-                    }
-                }
-            }
+            ArgumentProcessor.Process(args);
             
-            bool showMenu = true;
             while (showMenu)
             {
                 showMenu = Menu(); 
@@ -46,6 +31,14 @@ namespace AllLaunchConsoleUI
             // Readkey changes behavior of the app - the key needs to be pushed to launch other apps and therefore the app closes
             // ReadLine works as intended - firstly, apps are launching and then Enter is pressed on the app which leads to its end
             Console.ReadLine();
+        }
+
+        private static void AttachEvents()
+        {
+            LaunchManager.Instance.AppLaunched += AppLaunched;
+            LaunchManager.Instance.AppAlreadyRunning += AppAlreadyRunning;
+
+            timer.Elapsed += Timer_Elapsed;
         }
 
         private static bool Menu()
@@ -67,7 +60,7 @@ namespace AllLaunchConsoleUI
                 "Esc. Quit." + "\n" +
                 "Enter: "
             );
-
+            
             switch(Console.ReadKey().KeyChar)
             {
                 case '1':
@@ -87,16 +80,16 @@ namespace AllLaunchConsoleUI
                     }
                     return true;
                 case '5':
-                    LaunchManager.Instance.SaveObj();
+                    LaunchData.SaveObj();
                     return true;
                 case '6':
-                    LaunchManager.Instance.LoadObj();
+                    LaunchData.LoadObj();
                     return true;
                 case '7':
                     ListArguments();
                     return true;
                 case (char) Keys.Escape:
-                    Environment.Exit(0);
+                    //Environment.Exit(0);
                     return false;
                 default:
                     return true;
@@ -124,7 +117,7 @@ namespace AllLaunchConsoleUI
             Console.WriteLine("Enter application's index: ");
             int index = int.Parse(Console.ReadLine());
 
-            LaunchManager.Instance.AppModels.RemoveAt(index);
+            LaunchData.AppModels.RemoveAt(index);
         }
 
         private static void UpdateApp()
@@ -134,16 +127,16 @@ namespace AllLaunchConsoleUI
             int index = int.Parse(Console.ReadLine());
             
             Console.WriteLine("Enter application name: ");
-            SendKeys.SendWait(LaunchManager.Instance.AppModels[index].Name);
-            LaunchManager.Instance.AppModels[index].Name = Console.ReadLine();
+            SendKeys.SendWait(LaunchData.AppModels[index].Name);
+            LaunchData.AppModels[index].Name = Console.ReadLine();
 
             Console.WriteLine("\nEnter path to .exe file: ");
-            SendKeys.SendWait(LaunchManager.Instance.AppModels[index].PathToExe);
-            LaunchManager.Instance.AppModels[index].PathToExe = Console.ReadLine();
+            SendKeys.SendWait(LaunchData.AppModels[index].PathToExe);
+            LaunchData.AppModels[index].PathToExe = Console.ReadLine();
 
             Console.WriteLine("\nEnter launch arguments: ");
-            SendKeys.SendWait(LaunchManager.Instance.AppModels[index].Args);
-            LaunchManager.Instance.AppModels[index].Args = Console.ReadLine();
+            SendKeys.SendWait(LaunchData.AppModels[index].Args);
+            LaunchData.AppModels[index].Args = Console.ReadLine();
         }
 
         private static void ListArguments()
@@ -153,7 +146,7 @@ namespace AllLaunchConsoleUI
             (
                 "Example: AllLaunchConsoleUI.exe -n -t -a" + '\n' +
                 "-n: no menu (saved list of apps required)" + '\n' +
-                "\nPress a key to return..."
+                "\nPress enter to return..."
             );
             Console.ReadKey();
         }
