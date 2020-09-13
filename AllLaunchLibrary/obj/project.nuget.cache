@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "r0bE2jcKORllTyK23fpKv7EgQUF2i4lLgqE1Gk3i5AjQzpCyjMauLbDyI40VglJgehueWUYBU1T1ZYr2lS6D7A==",
+  "dgSpecHash": "5PlQQeJC+IP8HiJFyIKOkQcq43Y8h0+SPQmWuuXFb6KIhSKP+2U/sYd4UheZMIMUfdEJds9SypXFiSa/RTCkbA==",
   "success": true,
-  "projectFilePath": "W:\\Sources\\code\\C#\\AllLaunch\\AllLaunchLibrary\\AllLaunchLibrary.csproj",
+  "projectFilePath": "W:\\Sources\\Code\\C#\\AllLaunch\\AllLaunchLibrary\\AllLaunchLibrary.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Lion223\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\Lion223\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
-    "C:\\Users\\Lion223\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
-    "C:\\Users\\Lion223\\.nuget\\packages\\system.codedom\\4.7.0\\system.codedom.4.7.0.nupkg.sha512",
-    "C:\\Users\\Lion223\\.nuget\\packages\\system.management\\4.7.0\\system.management.4.7.0.nupkg.sha512"
+    "C:\\Users\\Lion\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Lion\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\Lion\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\Lion\\.nuget\\packages\\system.codedom\\4.7.0\\system.codedom.4.7.0.nupkg.sha512",
+    "C:\\Users\\Lion\\.nuget\\packages\\system.management\\4.7.0\\system.management.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }

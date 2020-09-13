@@ -25,7 +25,7 @@ namespace AllLaunchLibrary
             return false;
         }
 
-        public static void ProcessLaunch(AppModel app)
+        public static bool ProcessLaunch(AppModel app)
         {
             ProcessStartInfo psi = new ProcessStartInfo
             {
@@ -36,7 +36,16 @@ namespace AllLaunchLibrary
                 CreateNoWindow = true
             };
 
-            Process.Start(psi);
+            try
+            {
+                Process.Start(psi);
+            }
+            catch (System.ComponentModel.Win32Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

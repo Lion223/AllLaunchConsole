@@ -289,23 +289,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Lion223\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Lion\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "W:\\Sources\\code\\C#\\AllLaunch\\AllLaunchLibrary\\AllLaunchLibrary.csproj",
+      "projectUniqueName": "W:\\Sources\\Code\\C#\\AllLaunch\\AllLaunchLibrary\\AllLaunchLibrary.csproj",
       "projectName": "AllLaunchLibrary",
-      "projectPath": "W:\\Sources\\code\\C#\\AllLaunch\\AllLaunchLibrary\\AllLaunchLibrary.csproj",
-      "packagesPath": "C:\\Users\\Lion223\\.nuget\\packages\\",
-      "outputPath": "W:\\Sources\\code\\C#\\AllLaunch\\AllLaunchLibrary\\obj\\",
+      "projectPath": "W:\\Sources\\Code\\C#\\AllLaunch\\AllLaunchLibrary\\AllLaunchLibrary.csproj",
+      "packagesPath": "C:\\Users\\Lion\\.nuget\\packages\\",
+      "outputPath": "W:\\Sources\\Code\\C#\\AllLaunch\\AllLaunchLibrary\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Lion223\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Lion\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -354,7 +350,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

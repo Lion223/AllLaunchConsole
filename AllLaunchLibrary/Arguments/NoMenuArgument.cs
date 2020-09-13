@@ -1,6 +1,6 @@
 using System;
 
-namespace AllLaunchLibrary
+namespace AllLaunchLibrary.Arguments
 {
     public class NoMenuArgument : IArgument
     {

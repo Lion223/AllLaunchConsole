@@ -13,6 +13,7 @@ namespace AllLaunchLibrary
         // Events notifying about app launching state
         public event EventHandler<AppEventArgs> AppLaunched;
         public event EventHandler<AppEventArgs> AppAlreadyRunning;
+        public event EventHandler<AppEventArgs> AppFileIsNotFound;
         // Singleton implementation
         private static readonly Lazy<LaunchManager> lazy 
             = new Lazy<LaunchManager>(() => new LaunchManager());
@@ -45,6 +46,24 @@ namespace AllLaunchLibrary
             return sb.ToString();
         }
 
+        private void LaunchApp(AppModel app)
+        {
+            AppEventArgs e = new AppEventArgs(app.Name, app.PathToExe, app.Args);
+
+                // Check if app's process is launched
+                if (AppProcessInfo.ProcessExists(app))
+                {
+                    OnAppAlreadyRunning(e);
+                }
+                else
+                {
+                    if (AppProcessInfo.ProcessLaunch(app))
+                    {
+                        OnAppLaunched(e);
+                    }
+                }
+        }
+
         // Launch apps from the storage
         public bool Start()
         {
@@ -52,24 +71,24 @@ namespace AllLaunchLibrary
             {
                 return false;
             }
-            
-            AppEventArgs e = null;
+
+            List<AppModel> falsePaths;
+
+            if (!Validator.PathsExist(out falsePaths))
+            {
+                AppEventArgs e = null;
+
+                foreach (var app in falsePaths)
+                {
+                    e = new AppEventArgs(app.Name, app.PathToExe, app.Args); 
+
+                    OnAppFileIsNotFound(e);
+                }
+            }
 
             foreach (var app in LaunchData.AppModels)
             {
-                // Check if app's process is launched
-                if (AppProcessInfo.ProcessExists(app))
-                {
-                    e = new AppEventArgs(app.Name, app.Args);
-                    OnAppAlreadyRunning(e);
-                }
-                else
-                {
-                    AppProcessInfo.ProcessLaunch(app);
-
-                    e = new AppEventArgs(app.Name, app.Args);
-                    OnAppLaunched(e);
-                }
+                LaunchApp(app);
             }
 
             return true;
@@ -85,6 +104,11 @@ namespace AllLaunchLibrary
         private void OnAppAlreadyRunning(AppEventArgs e)
         {
             AppAlreadyRunning?.Invoke(this, e);
+        }
+
+        private void OnAppFileIsNotFound(AppEventArgs e)
+        {
+            AppFileIsNotFound?.Invoke(this, e);
         }
     }
 }
