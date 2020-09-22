@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AllLaunchLibrary.Models
+﻿namespace AllLaunchLibrary.Models
 {
     public class AppModel
     {

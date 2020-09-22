@@ -1,3 +1,4 @@
+<!-- <Project Sdk="Microsoft.NET.Sdk"> -->
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <ItemGroup>
     <ProjectReference Include="..\AllLaunchLibrary\AllLaunchLibrary.csproj"/>

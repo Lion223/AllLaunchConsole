@@ -1,7 +1,5 @@
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using AllLaunchLibrary.Models;
 using AllLaunchLibrary.EventArgsModels;
@@ -46,18 +44,19 @@ namespace AllLaunchLibrary
             return sb.ToString();
         }
 
+        // Private method for Start
         private void LaunchApp(AppModel app)
         {
             AppEventArgs e = new AppEventArgs(app.Name, app.PathToExe, app.Args);
 
                 // Check if app's process is launched
-                if (AppProcessInfo.ProcessExists(app))
+                if (AppProcess.ProcessExists(app))
                 {
                     OnAppAlreadyRunning(e);
                 }
                 else
                 {
-                    if (AppProcessInfo.ProcessLaunch(app))
+                    if (AppProcess.ProcessLaunch(app))
                     {
                         OnAppLaunched(e);
                     }
@@ -74,7 +73,7 @@ namespace AllLaunchLibrary
 
             List<AppModel> falsePaths;
 
-            if (!Validator.PathsExist(out falsePaths))
+            if (!Validator.AllPathsExist(out falsePaths))
             {
                 AppEventArgs e = null;
 
@@ -91,6 +90,9 @@ namespace AllLaunchLibrary
                 LaunchApp(app);
             }
 
+            Console.WriteLine();
+            MessageTemplate.LaunchProcessFinished();
+
             return true;
         }
 
@@ -106,6 +108,7 @@ namespace AllLaunchLibrary
             AppAlreadyRunning?.Invoke(this, e);
         }
 
+        // Notify listener about app's .exe file is not existing
         private void OnAppFileIsNotFound(AppEventArgs e)
         {
             AppFileIsNotFound?.Invoke(this, e);

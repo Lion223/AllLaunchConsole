@@ -4,8 +4,10 @@ using System.Diagnostics;
 
 namespace AllLaunchLibrary
 {
-    public static class AppProcessInfo
+    // Application process control
+    public static class AppProcess
     {
+        // Check if the process already exists
         public static bool ProcessExists(AppModel app)
         {
             Process[] processList = Process.GetProcesses();
@@ -25,6 +27,7 @@ namespace AllLaunchLibrary
             return false;
         }
 
+        // Launch a process with returning results
         public static bool ProcessLaunch(AppModel app)
         {
             ProcessStartInfo psi = new ProcessStartInfo

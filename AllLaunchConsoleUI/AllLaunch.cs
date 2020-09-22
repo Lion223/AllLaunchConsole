@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Text;
-
-// <Project Sdk="Microsoft.NET.Sdk">
 using System.Windows.Forms;
-using System.Timers;
-using System.Diagnostics;
-using System.Linq;
 using AllLaunchLibrary;
 using AllLaunchLibrary.EventArgsModels;
 
@@ -13,11 +7,8 @@ namespace AllLaunchConsoleUI
 {
     internal sealed class AllLaunch
     {
-        // Wait for 5 sec to close after all apps have launched
-        private static System.Timers.Timer timer 
-            = new System.Timers.Timer(5000);
         private static bool showMenu = true;
-
+        
         [STAThread]
         static void Main(string[] args)
         {   
@@ -28,6 +19,7 @@ namespace AllLaunchConsoleUI
             
             while (showMenu)
             {
+                Console.Clear();
                 showMenu = Menu(); 
             }
             
@@ -43,13 +35,10 @@ namespace AllLaunchConsoleUI
             LaunchManager.Instance.AppLaunched += AppLaunched;
             LaunchManager.Instance.AppAlreadyRunning += AppAlreadyRunning;
             LaunchManager.Instance.AppFileIsNotFound += AppFileIsNotFound;
-
-            timer.Elapsed += Timer_Elapsed;
         }
 
         private static bool Menu()
         {
-            Console.Clear();
             string appList = LaunchManager.Instance.GetLaunchList();
 
             Console.Write
@@ -70,12 +59,15 @@ namespace AllLaunchConsoleUI
             switch(Console.ReadKey().KeyChar)
             {
                 case '1':
+                    Console.Clear();
                     AddApp();
                     return true;
                 case '2':
+                    Console.Clear();
                     RemoveApp();
                     return true;
                 case '3':
+                    Console.Clear();
                     UpdateApp();
                     return true;
                 case '4':
@@ -92,7 +84,9 @@ namespace AllLaunchConsoleUI
                     LaunchData.LoadObj();
                     return true;
                 case '7':
-                    ListArguments();
+                    Console.Clear();
+                    MessageTemplate.Arguments();
+                    Console.ReadKey();
                     return true;
                 case (char) Keys.Escape:
                     Environment.Exit(0);
@@ -105,98 +99,100 @@ namespace AllLaunchConsoleUI
 
         private static void AddApp()
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "Exe (*.exe)|*.exe|All files (*.*)|*.*";
-                //openFileDialog.FilterIndex = 2;
-                openFileDialog.RestoreDirectory = true;
+            string fileName = OpenFileDialogHelper.DialogFileName();
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (fileName != null)
+            {
+                string appName = OpenFileDialogHelper.ApplicationNameParser(fileName);
+
+                if (!Validator.AppExists(appName, fileName))
                 {
-                    FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(openFileDialog.FileName);
-                    
-                    string appName = String.IsNullOrEmpty(fileVersionInfo.ProductName) ? 
-                        String.Concat(fileVersionInfo.FileName.Substring(fileVersionInfo.FileName.LastIndexOf(@"\") + 1).SkipLast(4)) : 
-                        fileVersionInfo.ProductName;
-                    appName = appName.First().ToString().ToUpper() + appName.Substring(1);
-                    Console.Clear();
                     Console.WriteLine($"Application's name: {appName}");
                     Console.Write("Enter launch arguments: ");
                     string args = Console.ReadLine();
 
-                    LaunchManager.Instance.AddApp(appName, openFileDialog.FileName, args);
+                    LaunchManager.Instance.AddApp(appName, fileName, args);
+                }
+                else
+                {
+                    MessageTemplate.AppAlreadyExists();
+                    Console.ReadKey();
                 }
             }
         }
 
         private static void RemoveApp()
         {
-            Console.Clear();
-            Console.Write("Enter application's index: ");
-            int index = int.Parse(Console.ReadLine());
+            string appList = LaunchManager.Instance.GetLaunchList();
 
-            LaunchData.AppModels.RemoveAt(index);
+            Console.WriteLine(appList);
+
+            Console.Write("Enter application's index: ");
+            int index = int.TryParse(Console.ReadLine(), out index) ? index : -1;
+
+            if (index >= 0 && index < LaunchData.AppModels.Count)
+            {
+                LaunchData.AppModels.RemoveAt(index);
+            }
+            else
+            {
+                MessageTemplate.WrongInput();
+                Console.ReadKey();
+            }
         }
 
         private static void UpdateApp()
         {
-            Console.Clear();
             Console.Write("Enter application's index: ");
-            int index = int.Parse(Console.ReadLine());
+            int index = int.TryParse(Console.ReadLine(), out index) ? index : -1;
 
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            if (index >= 0 && index < LaunchData.AppModels.Count)
             {
-                openFileDialog.InitialDirectory = LaunchData.AppModels[index].PathToExe
+                string initialDirectory = LaunchData.AppModels[index].PathToExe
                     .Substring(0, LaunchData.AppModels[index].PathToExe.LastIndexOf(@"\"));
-                openFileDialog.Filter = "Exe (*.exe)|*.exe|All files (*.*)|*.*";
-                openFileDialog.RestoreDirectory = true;
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                string fileName = OpenFileDialogHelper.DialogFileName(initialDirectory);
+
+                if (fileName != null)
                 {
-                    FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(openFileDialog.FileName);
-                    LaunchData.AppModels[index].Name = fileVersionInfo.ProductName;
-                    LaunchData.AppModels[index].PathToExe = openFileDialog.FileName;
+                    string appName = OpenFileDialogHelper.ApplicationNameParser(fileName);
 
-                    Console.Write("Enter launch arguments: ");
-                    SendKeys.SendWait(LaunchData.AppModels[index].Args);
-                    LaunchData.AppModels[index].Args = Console.ReadLine();
+                    if (!Validator.AppExists(appName, fileName))
+                    {
+                        LaunchData.AppModels[index].Name = appName;
+                        LaunchData.AppModels[index].PathToExe = fileName;
+
+                        Console.WriteLine($"Application's name: {appName}");
+                        Console.Write("Enter launch arguments: ");
+                        SendKeys.SendWait(LaunchData.AppModels[index].Args);
+                        LaunchData.AppModels[index].Args = Console.ReadLine();
+                    }
+                    else
+                    {
+                        MessageTemplate.AppAlreadyExists();
+                        Console.ReadKey();
+                    }
                 }
             }
-        }
-
-        private static void ListArguments()
-        {
-            Console.Clear();
-            Console.Write
-            (
-                "Example: AllLaunchConsoleUI.exe -n -t -a" + '\n' +
-                "-n: no menu (saved list of apps required)" + '\n' +
-                "\nPress a key to return..."
-            );
-            Console.ReadKey();
+            else
+            {
+                MessageTemplate.WrongInput();
+                Console.ReadKey();
+            }
         }
 
         private static void AppLaunched(object sender, AppEventArgs e)
         {
             Console.WriteLine($"{e.Name} {e.Args}: is launched");
-            
-            timer.Stop();
-            timer.Start();
         }
 
         private static void AppAlreadyRunning(object sender, AppEventArgs e)
         {
             Console.WriteLine($"{e.Name} {e.Args}: is already running");
-            
-            timer.Stop();
-            timer.Start();
         }
 
         private static void AppFileIsNotFound(object sender, AppEventArgs e)
-        {
-            timer.Stop();
-            
+        {            
             DialogResult res = MessageBox.Show
             (
                 $"{e.Name}: .exe file is not found. Wish to update the path? Otherwise, it will be deleted from the list", 
@@ -207,18 +203,23 @@ namespace AllLaunchConsoleUI
 
             var item = LaunchData.AppModels.Find(x => x.Name == e.Name);
 
-            if (res == DialogResult.Yes) {  
-                using (OpenFileDialog openFileDialog = new OpenFileDialog())
-                {
-                    openFileDialog.InitialDirectory = e.PathToExe
-                        .Substring(0, e.PathToExe.LastIndexOf(@"\"));
-                    openFileDialog.Filter = "Exe (*.exe)|*.exe|All files (*.*)|*.*";
-                    openFileDialog.RestoreDirectory = true;
+            if (res == DialogResult.Yes) { 
 
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                string fileName = OpenFileDialogHelper.DialogFileName(e.PathToExe
+                        .Substring(0, e.PathToExe.LastIndexOf(@"\")));
+
+                if (fileName != null)
+                {
+                    string appName = OpenFileDialogHelper.ApplicationNameParser(fileName);
+
+                    if (!Validator.AppExists(appName, fileName))
                     {
-                        FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(openFileDialog.FileName);
-                        item.PathToExe = openFileDialog.FileName;
+                        item.Name = appName;
+                        item.PathToExe = fileName;
+                    }
+                    else
+                    {
+                        LaunchData.AppModels.Remove(item);
                     }
                 }
             }
@@ -226,13 +227,6 @@ namespace AllLaunchConsoleUI
             {
                 LaunchData.AppModels.Remove(item);
             }
-
-            timer.Start();
-        }
-
-        private static void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            Environment.Exit(0);
         }
     }
 }

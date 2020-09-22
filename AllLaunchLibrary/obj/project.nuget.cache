@@ -1,14 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "5PlQQeJC+IP8HiJFyIKOkQcq43Y8h0+SPQmWuuXFb6KIhSKP+2U/sYd4UheZMIMUfdEJds9SypXFiSa/RTCkbA==",
+  "dgSpecHash": "Pi8rAhR6oweyIDLqwuUyiVxf5e2FtNJjExiS+0Obf+V2/1aF9MBvluYnfEagfZp02s0zFDC4WZQBV3meovPasA==",
   "success": true,
   "projectFilePath": "W:\\Sources\\Code\\C#\\AllLaunch\\AllLaunchLibrary\\AllLaunchLibrary.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Lion\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\Lion\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\Lion\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\Lion\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Lion\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\Lion\\.nuget\\packages\\system.codedom\\4.7.0\\system.codedom.4.7.0.nupkg.sha512",
-    "C:\\Users\\Lion\\.nuget\\packages\\system.management\\4.7.0\\system.management.4.7.0.nupkg.sha512"
+    "C:\\Users\\Lion\\.nuget\\packages\\system.management\\4.7.0\\system.management.4.7.0.nupkg.sha512",
+    "C:\\Users\\Lion\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
+    "C:\\Users\\Lion\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }

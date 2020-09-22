@@ -1,0 +1,9 @@
+W:\Sources\Code\C#\AllLaunch\AllLaunchLibrary\bin\Debug\netcoreapp3.1\AllLaunchLibrary.deps.json
+W:\Sources\Code\C#\AllLaunch\AllLaunchLibrary\bin\Debug\netcoreapp3.1\AllLaunchLibrary.dll
+W:\Sources\Code\C#\AllLaunch\AllLaunchLibrary\bin\Debug\netcoreapp3.1\AllLaunchLibrary.pdb
+W:\Sources\Code\C#\AllLaunch\AllLaunchLibrary\obj\Debug\netcoreapp3.1\AllLaunchLibrary.csprojAssemblyReference.cache
+W:\Sources\Code\C#\AllLaunch\AllLaunchLibrary\obj\Debug\netcoreapp3.1\AllLaunchLibrary.AssemblyInfoInputs.cache
+W:\Sources\Code\C#\AllLaunch\AllLaunchLibrary\obj\Debug\netcoreapp3.1\AllLaunchLibrary.AssemblyInfo.cs
+W:\Sources\Code\C#\AllLaunch\AllLaunchLibrary\obj\Debug\netcoreapp3.1\AllLaunchLibrary.csproj.CoreCompileInputs.cache
+W:\Sources\Code\C#\AllLaunch\AllLaunchLibrary\obj\Debug\netcoreapp3.1\AllLaunchLibrary.dll
+W:\Sources\Code\C#\AllLaunch\AllLaunchLibrary\obj\Debug\netcoreapp3.1\AllLaunchLibrary.pdb

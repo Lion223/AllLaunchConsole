@@ -6,6 +6,7 @@ using System.IO;
 
 namespace AllLaunchLibrary
 {
+    // Data management
     public static class LaunchData
     {
         // App info storage
